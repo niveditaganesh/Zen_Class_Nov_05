@@ -1,0 +1,89 @@
+let list_of_pets=[],request_of_pets=[],a=[],result={}
+type colors= 'black'|'BLACK'|'WHITE'|'white'|'brown'|'BROWN'|'Green'|'green'|'gold'|'GOLD'|'multicolor'|"MULTICOLOR"
+type pets='Dog'|'dog'|"cat"|'CAT'|'Parrot'|'parrot'|'fish'|"FISH"
+interface requestDetails{
+    type:pets;
+    age:number;
+    
+}
+
+class AvailablePets{
+    petNo:number;
+type:pets;
+color:colors;
+age:number;
+history:string;
+
+constructor(type:pets){
+this.type=type;
+}
+
+insert_pet(petNo:number,type:pets,color:colors,age:number,history:string){
+    this.petNo=petNo;
+this.type=type;
+this.color=color;
+this.age=age;
+this.history=history;
+return {"petNo":petNo,"type":type,"color":color,"age":age,"history":history}
+}
+}
+class RequestPets extends AvailablePets{
+id:number;
+type:pets;
+age:number;
+fur:boolean;
+color:colors;
+pattern:boolean;
+history:string;
+constructor(request:requestDetails){
+    super(request.type);
+    this.age=request.age;
+}
+insert_request(id:number,type:pets,age:number,color:colors,fur?:boolean,pattern?:boolean,history?:string){
+return {"id":id,"type":type,"age":age,"color":color,"fur":fur,"pattern":pattern,"history":history}
+}
+
+find_available(){
+
+for(let i=0;i<list_of_pets.length;i++){
+   for(let j=0;j<request_of_pets.length;j++){
+       if((list_of_pets[i].type==request_of_pets[j].type)&&(list_of_pets[i].age==request_of_pets[j].age)&&(list_of_pets[i].color==request_of_pets[j].color)&&(list_of_pets[i].history==request_of_pets[j].history)){
+          
+           a.push(request_of_pets[j].id)
+       }
+   }
+}
+
+   return `These requests are available: ${a}`
+}
+
+count_type(){
+    for(let i=0;i<list_of_pets.length;i++){
+            if(result[list_of_pets[i].type]===undefined){
+                result[list_of_pets[i].type] = 0;}
+            result[list_of_pets[i].type]++;
+        }return result;
+
+    }
+}
+
+
+
+var req=new RequestPets({
+type:"Dog",age:8
+})
+
+list_of_pets.push(req.insert_pet(1548,'dog','black',1,'no history'),
+req.insert_pet(2584,'cat','black',9,'no history'),
+req.insert_pet(1110,'fish','black',1,'no history'),req.insert_pet(4110,'fish','gold',1,'no history'),
+req.insert_pet(110,'parrot','green',1,'no history'),req.insert_pet(2548,'dog','black',1,'no history'),
+req.insert_pet(148,'dog','brown',2,'no history'));
+
+request_of_pets.push(req.insert_request(111,'cat',9,'black',true,false,'no history'),
+req.insert_request(112,'dog',1,'white',false,true,'no history'),
+req.insert_request(113,'fish',1,'gold',false,false,'no history'),
+req.insert_request(114,'parrot',4,'multicolor',false,false,'no history'));
+
+
+console.log(req.find_available())
+console.log(req.count_type())
